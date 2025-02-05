@@ -1,0 +1,85 @@
+Note: use of LINQ in this assignment is recommended but not mandatory.
+
+You are developing an app for Human Resources that will simplify selecting and inviting applicants for new teaching positions in the Hogeschool. 
+Based on their resumes, applicants can be selected based on a specified minimum years of teaching experience and teaching certification.
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+enum TeachingCertificate
+
+Create the enum TeachingCertificate in TeachingCertificate.cs. It should have the following members, listed in ascending order of certification level:
+* None,
+* BDB1,
+* BDB2,
+* BKO,
+* SKO
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+class Applicant
+
+You don't need to modify this class, but do note that it has properties Name, Age, Certificate and YearsExperience, 
+which will be used to order and/or filter applicants.
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+class ApplicantManager
+
+This class will contain the functionality for filtering and inviting applicants.
+
+Properties
+
+Add the correct type for the following properties:
+===========================================
+* ToInvite: A Queue of type Applicant. Don't forget to initialize this.
+* CertificateInfo : A Dictionary with keys of type TeachingCertificate and values of type string.
+
+Method FilterApplicants
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Update list Applicants so that it only contains those applicants that meet the minimum teaching certification 
+(minCertificate) and teaching experience (minYears). In other words: after this method is done, candidates 
+that do not meet both criteria will have been filtered from the list of Applicants.
+
+Method AssembleApplicantsByNameAndAge
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Update Applicants so that they ordered:
+* first by Name
+* then by Age
+
+For example:
+* Jack Doe, aged 25
+* Jack Doe, aged 30
+* Jane Doe, aged 20
+* Jane Doe, aged 25
+* Jill Doe, aged 25
+* John Doe, aged 20
+
+Then in this order, we will add them to a Queue named ToInvite, so that we can invite them in the next method. 
+(You should not remove them from the list.)
+
+Method InviteApplicants
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+We will now send the invitations to the applicants in the queue. To do this, remove the applicants from the queue and print their names, 
+years of teaching experience and the information about their teaching certificate (use CertificateInfo). For example:
+-------------------------------------------------------------
+| Invited applicant: Jack Doe                               |
+|  - Years of experience: 1                                 |
+|  - Certificate: Basis Didactische Bekwaamheid 1           |
+| Invited applicant: Jack Doe                               |
+|  - Years of experience: 3                                 |
+|  - Certificate: Basis Didactische Bekwaamheid 2           |
+| Invited applicant: Jane Doe                               |
+|  - Years of experience: 5                                 |
+|  - Certificate: Basis Kwalificatie Onderwijs              |
+| Invited applicant: Jane Doe                               |
+|  - Years of experience: 6                                 |
+|  - Certificate: Senior Kwalificatie Onderwijs             |
+| Invited applicant: Jill Doe                               |
+|  - Years of experience: 2                                 |
+|  - Certificate: Basis Didactische Bekwaamheid 1           |
+| Invited applicant: John Doe                               |
+|  - Years of experience: 3                                 |
+|  - Certificate: Basis Didactische Bekwaamheid 2           |
+-------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------------------

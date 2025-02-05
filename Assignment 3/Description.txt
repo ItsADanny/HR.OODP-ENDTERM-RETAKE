@@ -1,0 +1,66 @@
+Go is a board game for two players, where both players places stones on an 19x19 board. 
+The objective of the game is to get a larger territory and larger amount of stones captured than your opponent.
+
+In this simplified version of the game on a smaller 8x8 board, you can only place pieces on the board and capture your opponent's stones. 
+The code for the game is almost finished; all that is left for you to do is to write the method for capturing stones and to implement the GoUtils class.
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+class GoUtils
+
+This class provides lambdas that help with the Go game. It has a method that, depending on the given string, returns a lambda. This lambda:
+* takes a Go game (object)
+* returns nothing
+
+Depending on the given string, return a lambda:
+* "Reset": resets the board game by removing all the pieces and setting the TurnPlayer to the starting player (which is black).
+* "PrintTurnPlayer": prints the current turn player: "Turn player: Black" or "Turn player: White".
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+class Go
+
+This class already has functionality that allows players to alternate their turns (black goes first) and to place their stones on the board. 
+It also has functionality (CheckAndCapture) to detect which stones are to be captured (stones that are completely surrounded by their 
+opponent's stones and have no empty spaces connected to them). You only need to finish the recursive method CaptureGroup.
+
+Method CaptureGroup is called whenever a player captures one or more of their opponent's stones. 
+It recursively removes an opponent's group of stones surrounding the given coordinates. To do this, 
+if the given position is valid (you can use method IsValidPosition) and the character at that position is the opponent's, 
+then the character at the given position is made Empty. It then recursively calls the CaptureGroup method for the position above, 
+below, left and right of the current position. For example:
+---------------------------------------------------------
+|      0 1 2 3 4 5 6 7                                  |
+|      ---------------                                  |
+|    0|W . B . . . . .                                  |
+|    1|W W B . . . . .                                  |
+|    2|B B B . . . . .                                  |
+|    3|. . . . . . . .                                  |
+|    4|. . . . . . . .                                  |
+|    5|. . . . . . . .                                  |
+|    6|. . . . . . . .                                  |
+|    7|. . . . . . . .                                  |
+|                                                       |
+|    Black places a piece and captures White:           |
+|                                                       |
+|    Board after Black captures White:                  |
+|      0 1 2 3 4 5 6 7                                  |
+|      ---------------                                  |
+|    0|. B B . . . . .                                  |
+|    1|. . B . . . . .                                  |
+|    2|B B B . . . . .                                  |
+|    3|. . . . . . . .                                  |
+|    4|. . . . . . . .                                  |
+|    5|. . . . . . . .                                  |
+|    6|. . . . . . . .                                  |
+|    7|. . . . . . . .                                  |
+---------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+Important
+* Method CaptureGroup must be recursive; iterative implementations will not be awarded any points.
+* Think carefully what is/are the base case(s) and what is/are the recursive case(s) of this method.
+* Do not change the method signature (name, parameters, return type) in any way.
+
+-----------------------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,95 @@
+Class diagram
+
+All the information you need is in the rest of the description; this class diagram just gives an overview of the structure of the program you have to create.
+
+[LOOK AT pkgE240P12R0.png]
+
+When buying a product such as electronics, there are various payment methods, such as using a credit card.
+The payment methods are not necessarily related, so we will model them using an interface.
+-----------------------------------------------------------------------------------------------------------------------------
+
+class Product
+
+Make this class abstract.
+
+Change the fields Name and BasePrice so that they are read-only fields.
+Change TotalPrice so that it is an abstract read-only property. (This is the actual, calculated price.)
+
+Add the following methods:
+===========================================
+* PrintInstructions: this method takes no parameters and returns nothing. It has no implementation.
+* ToString: override the method of the base class. An example of what it returns:
+------------------------------------------
+| Computer                               |
+| Base price: 1000                       |
+| Total price: 1200                      |
+------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+class Electronics
+
+This class inherits from Product.
+
+Change the following fields:
+===========================================
+* TaxRate: make it constant and give it the value of 0.20.
+* _instructions: make it read-only and private.
+
+Change TotalPrice so that it is a read-only property that overrides that of the base class. It should return the BasePrice increased by the TaxRate.
+===========================================
+* For example, if the base price is 1000, this property returns 1200.
+
+Change the following methods:
+===========================================
+* constructor: set the given arguments to their respective fields and properties, remembering that this class inherits from Product.
+* PrintInstructions: remember that this method was also in the base class, with no implementation. So what do you need to do here?
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+interface IPayment
+
+Create this interface with the following members:
+===========================================
+* Amount: a read/write double property.
+* HolderName: a read-only string property.
+* IsProcessed: a read-only bool property.
+* ProcessPayment: a method that takes no parameters and returns nothing.
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+class CreditCardPayment
+
+This class implements IPayment.
+
+Change the following fields:
+===========================================
+* CardNumber: read-only.
+
+Change the following fields to properties:
+===========================================
+* HolderName: a read-only string.
+* Amount: read/write.
+* IsProcessed: a bool that can be read anywhere and written to only in this class.
+
+Methods:
+===========================================
+* ProcessPayment: sets IsProcessed to true.
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+class PaymentProcessor
+
+Make this class static.
+
+Methods:
+===========================================
+1. ProcessPayment: takes Product and an object that has implemented IPayment, and returns nothing. Depending on the given arguments, 
+   do one the following (and you can make use of method PrintOutcome for easy printing):
+    * if the payment has already been processed, print "Already processed".
+    * if the payment is not a CreditCardPayment, print "Unsupported payment type". (We will test this with a hidden class.)
+    * if the payment's amount does not equal the product's total price, print "Incorrect amount paid".
+    * if the product's total price is equal to the amount of the payment, call ProcessPayment of the payment, then print "Payment successful".
+2. PrintOutcome: make this method private.
+
+-----------------------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,87 @@
+In this program, players and items have a weight. The weight of a player or item can, for example, determine whether a trap is triggered.
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+class Item
+
+As mentioned, items have a name and a weight. Implement IComparable<Item>, 
+so that a collection of items is sorted first by weight (low to high), then by name (alphabetically). For example:
+
+-----------------------------------------------------------------------------
+| List<Item> items = [                                                      |
+|     new("Tunic", 5), // Tunic is the name, 5 is the weight                |
+|     new("Healing Potion", 1),                                             |
+|     new("Dagger", 5),                                                     |
+| ];                                                                        |
+-----------------------------------------------------------------------------
+
+After sorting, the list should be in the following order: Healing Potion, Dagger, Tunic.
+
+You don't need to take into account null values.
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+class Pickup
+
+This is the base class for things the player can pick up. It serves as a container for the thing picked up. Since what is picked up can be all kinds of things, 
+we will use a generic property here: give this class a generic read-only property named Value and set its value through the constructor.
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+class ItemPickup
+
+This class inherits from Pickup. It holds the item the player just picked up, and keeps track of where the item was picked up (Location). 
+Give Value the concrete type Item. 
+Notice that the actual Item has the Weight, and not this class.
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+class GoldPickup
+
+This class also inherits from Pickup. Give Value the concrete type int, which is the amount of gold the player picked up.
+Notice that since the actual gold is just an int, the gold the player carries doesn't have any weight, in contrast to items.
+
+Overload the + operator: it returns a new GoldPickup object with an amount of gold equal to that of the sum of the two given GoldPickup objects. 
+You may assume the given arguments are not null.
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+class Player
+
+Players also have a name and a weight. However, the player can also PickUp things like items and gold.
+
+Finish generic method PickUp that takes a Pickup object. Do the following, depending on the type of the given object:
+===========================================
+* GoldPickup: add the amount of gold to the player's Gold.
+* ItemPickup: add the item to the player's inventory.
+* Anything else: print "Invalid pickup".
+
+After picking up items, the player will weigh more. Therefore the player's actual weight is BaseWeight, 
+and their total weight (their base weight and the weight of the carried items) is Weight. 
+Modify property Weight so that it returns the sum of the player's base weight and that of all the items in the inventory.
+
+* For example, if the player's base weight is 60, and they have two items that weigh 5 each, the player's Weight should be 70.
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+class WeightChecker
+
+This class is static and is used to check whether a player or item weighs enough to trigger an event like a trap. Create generic method ExceedsWeightThreshold that takes generic parameter t of type T and an int (the weight threshold), and returns a bool. The generic parameter is constraint to types that have implemented both IWeight and IName.
+
+The method ExceedsWeightThreshold performs two tasks:
+===========================================
+1. It prints the following information to the screen:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* the name and weight of the player or object
+* the threshold
+* whether the threshold is exceeded
+
+For a Dagger with a weight of 5, and a threshold of 10, the output must be as follows:
+-----------------------------------------------------
+| Weight of Dagger: 5                               |
+| Weight threshold: 10                              |
+| Weight threshold exceeded? No                     |
+-----------------------------------------------------
+2. The method returns true if the weight exceeds the threshold; false otherwise.
+
+-----------------------------------------------------------------------------------------------------------------------------

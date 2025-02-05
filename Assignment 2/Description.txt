@@ -1,0 +1,92 @@
+We will make a reporting system for different kinds of machines.
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+class Machine
+
+There is no need to change this class. Do note that this is the base class for CopyingMachine and NetworkRouter and has 
+method AddIncident which takes in an incident (a string) and stores this in the list Incidents.
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+class CopyingMachine
+
+As you can see in method Copy, any incidents occurring when copying are automatically reported.
+
+Methods:
+===========================================
+* constructor: the first parameter is already given. Change the second parameter to a ValueTuple (so not a regular Tuple) 
+               with 3 ints: the percentages of ink for PctInkCyan, PctInkMagenta and PctInkYellow, respectively.
+* ReadPctInk: takes no parameters, but returns a ValueTuple with 3 ints named Cyan, Magenta, and Yellow, respectively, 
+              which are the current values of fields PctInkCyan, PctInkMagenta and PctInkYellow.
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+class NetworkRouter
+
+Network routers can have devices connected to its ports. It will automatically log any attempt to connect to its ports.
+
+Fields:
+===========================================
+* Ports: its type should be a two-dimensional (2D) array of strings (so not a jagged array). Its rows represent ports and its columns represent connections.
+    1. Note: you may only add this field to this class; do not add any other field or property.
+
+Methods:
+===========================================
+* constructor: initialize Ports with a number of rows (ports) equal to numPorts and a number of columns (connections) equal to 2. For example, if numPorts is 3:
+  -----------------------------------------------------
+  | [ null, null ] // Port 0                          |
+  | [ null, null ] // Port 1                          |
+  | [ null, null ] // Port 2                          |
+  -----------------------------------------------------
+* ConnectDevice: takes a portRow, a connectionColumn (both ints) and an ipAddress (a string).
+    1. If the slot is not available (not null), call AddIncident with "Already in use".
+    2. If the given port or connection is out of bounds, call AddIncident with "Out of range".
+    3. Otherwise connect (set) the given IP address to the slot in Ports at the given port and connection. For example, 
+       if portRow is 1, connectionColumn is 0 and the ipAddress is 192.168.1.10:
+       ------------------------------------------------------
+       | [ null, null ]                                     |
+       | [ "192.168.1.10", null ]                           |
+       | [ null, null ]                                     |
+       ------------------------------------------------------
+       Then call AddIncident with "192.168.1.10 connected to port 1 at connection index 0".
+    4. Note: AddIncident is in the Machine class.
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+class IncidentReport
+
+This class gathers all incidents and prepares reports.
+
+Fields:
+===========================================
+* Reports: a jagged array of strings, with all added incidents for the given list of machines.
+    1. Note: you may only add this field to this class; do not add any other field or property.
+
+Methods:
+===========================================
+* constructor: takes a list of machines. The outer array will represent each machine, and each inner array will hold the incidents from one machine. 
+               In other words, initialize Reports with a row for each machine; then for each machine in the list, 
+               create a new string array of the same size as the machine's list of Incidents. Also copy over the incidents. 
+               For example, if you have 3 machines with 2, 3, and 4 incidents respectively:
+               ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+               | [ "192.168.1.10 connected to port 1 at connection 0", "192.168.1.11 connected to port 1 at connection 1" ]                                                                                 |
+               | [ "192.168.1.15 connected to port 0 at connection 0", "192.168.1.21 connected to port 2 at connection 0", "Out of range" ]                                                                 |
+               | [ "192.168.1.31 connected to port 1 at connection 2", "192.168.1.32 connected to port 0 at connection 2", "Already in use", "192.168.1.41 connected to port 2 at connection 2" ]           |
+               ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+* PrintReports: prints all incidents of all machines. Using the example above, this would print:
+                -----------------------------------------------------------------
+                | 192.168.1.10 connected to port 1 at connection 0              |
+                | 192.168.1.11 connected to port 1 at connection 1              |
+                |                                                               |
+                | 192.168.1.15 connected to port 0 at connection 0              |
+                | 192.168.1.21 connected to port 2 at connection 0              |
+                | Out of range                                                  |
+                |                                                               |
+                | 192.168.1.31 connected to port 1 at connection 2              |
+                | 192.168.1.32 connected to port 0 at connection 2              |
+                | Already in use                                                |
+                | 192.168.1.41 connected to port 2 at connection 2              |
+                -----------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------------------
